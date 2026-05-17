@@ -116,7 +116,8 @@ label chapter1_scene3:
     scene bg_bunker_room
     with flash
 
-    play sound "alarm.ogg"
+    if renpy.loadable("alarm.ogg"):
+        play sound "alarm.ogg"
 
     narrator "Раздаётся резкий, бьющий по ушам звуковой сигнал. Экран на стене вспыхивает ядовито-зелёным. На нём появляется силуэт без лица."
 
@@ -161,7 +162,8 @@ label chapter2_start:
     scene bg_bunker_room_red
     with flash
 
-    play sound "alarm_critical.ogg"
+    if renpy.loadable("alarm_critical.ogg"):
+        play sound "alarm_critical.ogg"
 
     sys "ВНИМАНИЕ! БЛОКИРОВКА ВОЗДУШНОГО КЛАПАНА СЕКТОРА А. ОСТАТОК КИСЛОРОДА: 15 МИНУТ"
 
@@ -172,17 +174,13 @@ label chapter2_start:
     narrator "--- МИНИ-ИГРА №1: «ВЗЛОМ ПРОТОКОЛА» (Логика) ---"
     narrator "Перед игроком открывается панель терминала. Задача: за 90 секунд расставить логические элементы, чтобы ток прошёл от левого края к правому."
 
-    # Здесь вызов мини-игры; результат пишется в minigame1_success
-    # call screen minigame_hack
-    # В прототипе — меню-заглушка:
-    menu:
-        "Успешно взломать терминал.":
-            $ minigame1_success = True
-            jump chapter2_success
+    call screen minigame_hack
+    $ minigame1_success = _return
 
-        "Не справиться со взломом.":
-            $ minigame1_success = False
-            jump chapter2_fail
+    if minigame1_success:
+        jump chapter2_success
+    else:
+        jump chapter2_fail
 
 
 label chapter2_success:
@@ -321,84 +319,12 @@ label minigame2_start:
     narrator "--- МИНИ-ИГРА №2: «ДОПРОС ЗА ЗАКРЫТОЙ ДВЕРЬЮ» (Манипуляция) ---"
     narrator "У Алекса 4 хода, чтобы расколоть Елену, не подняв её тревогу до максимума."
 
-    # Ход 1
-    narrator "ХОД 1:"
-    menu:
-        "«Елена, успокойся. Я просто спросил про ампулу. Почему ты так нервничаешь?»":
-            narrator "(Пульс: 85 bpm. Тревога без изменений.)"
-            jump minigame2_move2_safe
+    call screen minigame_interrogation
 
-        "«Хватит строить из себя жертву. Ты журналист, ты знала про этот бункер. Это твоя работа?!»":
-            narrator "(Пульс: 110 bpm. Тревога +25%%.)"
-            jump minigame2_move2_aggressive
-
-        "«Я верю тебе. Но если мы не будем честны друг с другом, Виктор нас убьёт. Расскажи про ампулу.»":
-            narrator "(Эмпатия. Пульс: 75 bpm. Тревога -10%%.)"
-            jump minigame2_move2_empathy
-
-
-label minigame2_move2_safe:
-    # Ход 2 — нейтральный путь
-    narrator "ХОД 2:"
-    a "Эта ампула... Из-за её содержимого мы спали. Запах озона. Ты проснулась раньше нас?"
-
-    e "Я... я просто нашла её на полу, когда зашла. Хотела спрятать, чтобы Ян не устроил истерику!"
-
-    narrator "(Пульс: 120 bpm — она врёт.)"
-
-    narrator "ХОД 3:"
-    a "Пульс выдаёт тебя, Елена. Кто тебе заплатил?"
-
-    e "Никто! Ты с ума сошёл?!"
-
-    narrator "ХОД 4:"
-    menu:
-        "«Я не твой враг. Но я знаю, что ты лжёшь. Скажи правду — и я никому не расскажу.»":
-            jump minigame2_success
-        "«Говори сейчас, или я расскажу всё Виктору.»":
-            jump minigame2_fail
-
-
-label minigame2_move2_aggressive:
-    narrator "ХОД 2:"
-    e "Ты... ты с ума сошёл! Я здесь жертва, как и ты!"
-
-    narrator "(Тревога критически высокая.)"
-
-    narrator "ХОД 3:"
-    menu:
-        "Попытаться успокоить её.":
-            a "Извини. Я не хотел тебя обидеть. Просто скажи про ампулу."
-            jump minigame2_move4_last_chance
-        "Давить дальше.":
-            jump minigame2_fail
-
-
-label minigame2_move2_empathy:
-    narrator "ХОД 2:"
-    a "Эта ампула... Из-за её содержимого мы спали. Ты знаешь, что в ней было?"
-
-    e "Я... (долгая пауза) Ладно. Это снотворное. Я видела такие во время одного расследования."
-
-    narrator "ХОД 3:"
-    a "Где ты видела их раньше?"
-
-    e "В лаборатории одной корпорации. Я писала о ней статью. Алекс, я не знала, что нас запрут здесь умирать, клянусь."
-
-    narrator "ХОД 4:"
-    a "Кто попросил тебя принести её?"
-
-    jump minigame2_success
-
-
-label minigame2_move4_last_chance:
-    narrator "ХОД 4:"
-    a "Елена, последний шанс. Расскажи про ампулу."
-    menu:
-        "Продолжать мягко давить.":
-            jump minigame2_success
-        "Сорваться на крик.":
-            jump minigame2_fail
+    if _return:
+        jump minigame2_success
+    else:
+        jump minigame2_fail
 
 
 label minigame2_success:
@@ -520,7 +446,8 @@ label chapter4_sabotage:
     scene bg_bunker_hub_red
     with flash
 
-    play sound "alarm_wail.ogg"
+    if renpy.loadable("alarm_wail.ogg"):
+        play sound "alarm_wail.ogg"
 
     sys "КРИТИЧЕСКИЙ СБОЙ: КЛАПАНЫ ВЕНТИЛЯЦИИ ПЕРЕКРЫТЫ ВРУЧНУЮ ИЗ ИНЖЕНЕРНОГО ОТСЕКА. СКОРОСТЬ ПАДЕНИЯ КИСЛОРОДА УВЕЛИЧЕНА В 5 РАЗ"
 
@@ -534,19 +461,15 @@ label chapter4_sabotage:
     narrator "На схеме — четыре сектора. Общий уровень кислорода: 40 единиц. Нужно довести каждый сектор минимум до 10 единиц за 5 ходов."
     narrator "Жилой блок (Виктор): 25 ед. Технический (Ян): 5 ед. Медблок (Елена): 5 ед. Центр (Алекс): 5 ед."
 
-    # Заглушка выбора исхода
-    menu:
-        "Идеально сбалансировать все секторы (10/10/10/10).":
-            $ minigame3_result = 1
-            jump minigame3_ideal
+    call screen minigame_air
+    $ minigame3_result = _return
 
-        "Спасти себя и одного человека, пожертвовав остальными (например, обделить Яна).":
-            $ minigame3_result = 2
-            jump minigame3_pragmatic
-
-        "Запутаться в вентилях — полный провал.":
-            $ minigame3_result = 0
-            jump minigame3_total_fail
+    if minigame3_result == 1:
+        jump minigame3_ideal
+    elif minigame3_result == 2:
+        jump minigame3_pragmatic
+    else:
+        jump minigame3_total_fail
 
 
 label minigame3_ideal:
@@ -620,16 +543,16 @@ label chapter5_start:
     narrator "Затемнённая комната Виктора. Игрок управляет кругом света от фонарика. Нужно за 60 секунд найти три улики, пока шкала «Риск обнаружения» не достигла 100%%."
     narrator "Цели: армейский блокнот (под матрасом), электронный брелок (в кармане куртки), следы крови у вентиляционной решётки."
 
-    menu:
-        "Найти все три улики и уйти незамеченным.":
-            $ flag_viktor_notebook = True
-            $ flag_caught_searching = False
-            jump chapter5_search_success
+    call screen minigame_search
 
-        "Быть пойманным с поличным.":
-            $ flag_viktor_notebook = False
-            $ flag_caught_searching = True
-            jump chapter5_search_fail
+    if _return:
+        $ flag_viktor_notebook = True
+        $ flag_caught_searching = False
+        jump chapter5_search_success
+    else:
+        $ flag_viktor_notebook = False
+        $ flag_caught_searching = True
+        jump chapter5_search_fail
 
 
 label chapter5_search_success:
