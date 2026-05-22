@@ -67,7 +67,7 @@ label start:
 
     narrator "Темнота. Холод. Первое, что возвращается — это запах. Острый, химический запах озона и застоявшейся сырости. Затем приходит боль в затылке."
 
-    scene bg_bunker_room
+    scene bg_bunker_hub
     with dissolve
 
     narrator "Зрение проясняется. Алекс видит потолок, затем резко садится. Рядом на полу и койках приходят в себя остальные."
@@ -113,7 +113,7 @@ label chapter1_scene2:
 
 label chapter1_scene3:
 
-    scene bg_bunker_room
+    scene bg_bunker_hub
     with flash
 
     if renpy.loadable("alarm.ogg"):
@@ -139,7 +139,7 @@ label chapter1_scene3:
 # ============================================================
 label chapter2_start:
 
-    scene bg_bunker_room
+    scene bg_bunker_hub
     with fade
 
     scene black
@@ -149,7 +149,7 @@ label chapter2_start:
     $ renpy.pause(2.0)
     hide text with dissolve
     $ renpy.pause(0.3)
-    scene bg_bunker_room
+    scene bg_bunker_hub
     with dissolve
     narrator "Проходит два часа. Атмосфера накаляется. Ян мечется по комнате. Виктор пытается вскрыть распределительный щиток."
 
