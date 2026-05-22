@@ -37,6 +37,23 @@ define sys = Character("СИСТЕМА", color="#ff4444")
 define voice = Character("Голос из динамиков", color="#888888")
 define narrator = Character("", window_style="say_window")
 
+# --- СПРАЙТЫ ПЕРСОНАЖЕЙ ---
+image alex basic = "alex_basic.png"
+image alex determined = "alex_determined.png"
+image alex shock = "alex_shock.png"
+
+image viktor gloomy = "viktor_gloomy.png"
+image viktor furious = "viktor_furious.png"
+image viktor fatigue = "viktor_fatigue.png"
+
+image elena cold = "elena_ColdCalculation.png"
+image elena fright = "elena_fright.png"
+image elena hysteria = "elena_hysteria.png"
+
+image jan paranoia = "jan_paranoia.png"
+image jan fainting = "jan_fainting.png"
+image jan crazy = "jan_CrazyLaughter.png"
+
 # Переход «белая вспышка» — используется при тревожных событиях
 define flash = Fade(0.1, 0, 0.4, color="#ffffff")
 
@@ -72,14 +89,22 @@ label start:
 
     narrator "Зрение проясняется. Алекс видит потолок, затем резко садится. Рядом на полу и койках приходят в себя остальные."
 
+    show alex shock at left with dissolve
     a "Где я?.. Руки... не слушаются. Ноги как ватные. Я... кто я?"
 
+    show jan paranoia at right with dissolve
     y "Какого черта... Моя голова... Эй! Кто-нибудь! Где свет?!"
 
+    hide alex
+    show viktor gloomy at left with dissolve
     v "Заткнись и не ори. Кислород тратишь."
 
+    show elena fright at center with dissolve
     e "Пожалуйста, скажите, что это глупая шутка... Меня ждали дома... Мой телефон... Где мой телефон?!"
 
+    hide jan
+    hide viktor
+    hide elena
     jump chapter1_scene2
 
 
@@ -90,6 +115,7 @@ label chapter1_scene2:
 
     narrator "Виктор подходит к Алексу и протягивает руку, оценивающе глядя сверху вниз."
 
+    show viktor gloomy at right with dissolve
     v "Живой, аналитик? Вставай. Нам нужно понять, как мы сюда попали. Ты последнее что помнишь?"
 
     menu:
@@ -153,10 +179,13 @@ label chapter2_start:
     with dissolve
     narrator "Проходит два часа. Атмосфера накаляется. Ян мечется по комнате. Виктор пытается вскрыть распределительный щиток."
 
+    show jan paranoia at left with dissolve
     y "Это он! Это Виктор! Посмотрите на него — он же наемник какой-то! Он нас всех тут перережет, чтобы воздуха больше было!"
 
+    show viktor furious at right with dissolve
     v "Если ты не закроешь рот, щегол, я начну уменьшать популяцию прямо сейчас. Начнём с тебя."
 
+    show elena fright at center with dissolve
     e "Прекратите! Вы не видите? Экрану нужно, чтобы мы перебивали друг друга! Алекс, сделай что-нибудь, ты же молчишь и думаешь всё это время!"
 
     scene bg_bunker_room_red
@@ -167,8 +196,10 @@ label chapter2_start:
 
     sys "ВНИМАНИЕ! БЛОКИРОВКА ВОЗДУШНОГО КЛАПАНА СЕКТОРА А. ОСТАТОК КИСЛОРОДА: 15 МИНУТ"
 
+    show viktor furious at right with dissolve
     v "Щиток заклинило электронным замком. Нужен код или обход цепи."
 
+    show jan paranoia at left with dissolve
     y "Я... я могу взломать через сервисный порт под экраном, но там зашифрованный протокол! Мне нужны инструменты и чтобы мне не мешали!"
 
     narrator "--- МИНИ-ИГРА №1: «ВЗЛОМ ПРОТОКОЛА» (Логика) ---"
@@ -189,8 +220,10 @@ label chapter2_success:
 
     $ group_paranoia = max(0, group_paranoia - 20)
 
+    show viktor gloomy at right with dissolve
     v "Убираю заточку. Ладно... Молодцы."
 
+    show jan paranoia at left with dissolve
     y "Алекс... Спасибо. Извини за панику."
 
     jump chapter3_start
@@ -204,10 +237,13 @@ label chapter2_fail:
     $ group_paranoia = min(100, group_paranoia + 40)
     $ trust_yan -= 10
 
+    show viktor furious at right with dissolve
     v "Терпи, щегол. Зато живы."
 
+    show jan paranoia at left with dissolve
     y "Ты сломал мне руку, псих!!!"
 
+    show elena fright at center with dissolve
     e "Прекратите, ради бога..."
 
     narrator "Все подозревают Яна или Алекса в саботаже."
@@ -234,13 +270,16 @@ label chapter3_start:
     with dissolve
     narrator "Группа стоит в центральном шлюзе. Воздух из вентиляции идёт со слабым свистом."
 
+    show viktor gloomy at right with dissolve
     if not minigame1_success:
         v "Итак, мы выяснили, что сидеть в одной комнате — верная смерть. Предлагаю разделиться. Я беру под охрану жилой блок. Там есть железные шкафы — проверим, что в них."
     else:
         v "Итак. Предлагаю разделиться и обыскать бункер. Я беру жилой блок под охрану."
 
+    show jan paranoia at left with dissolve
     y "Ага, конечно, чтобы ты там заперся с оружием, если найдёшь его? Нет уж. Я иду в технический отсек. Там терминалы управления. Если этот урод на экране не соврал — я смогу найти лазейку в коде и открыть шлюз раньше, чем через 48 часов."
 
+    show elena fright at center with dissolve
     e "А я пойду в медицинский блок. Там должны быть успокоительные... и вода. Я распределю всё поровну, честно. Алекс, ты пойдёшь со мной? Мне страшно оставаться одной."
 
     menu:
@@ -269,6 +308,7 @@ label chapter3_yan_branch:
 
     narrator "Технический отсек. Гул серверов, мигающие индикаторы, запах перегретого железа."
 
+    show jan paranoia at right with dissolve
     y "Вот, смотри. Здесь должен быть внешний канал телеметрии. Если его открыть — можно послать сигнал наружу или вытащить план бункера из архива."
 
     a "Ты говоришь уверенно. Ты уже бывал в таких системах?"
@@ -292,6 +332,7 @@ label chapter3_elena_branch:
 
     narrator "Медицинский блок. Стерильно-белые стены. Операционный стол. Шкафы с лекарствами закрыты на кодовые замки."
 
+    show elena fright at right with dissolve
     e "Спасибо, что пошёл со мной. Виктор пугает меня до усрачки. Ты видел его руки? У него татуировка подразделения, которое расформировали за военные преступления..."
 
     a "Откуда ты это знаешь?"
@@ -306,6 +347,7 @@ label chapter3_elena_branch:
 
     narrator "Елена замечает, что Алекс разглядывает ампулу. Её лицо мгновенно меняется. Доброжелательность исчезает."
 
+    show elena cold at right with dissolve
     e "Ты ведь что-то нашёл, да, Алекс? Ты смотришь на меня так, будто я... чудовище. Ты думаешь, это я нас сюда заперла? Хочешь обыскать мои карманы? Попробуй. Но учти: если ты ошибёшься, я закрою этот блок, и воду вы больше не увидите."
 
     narrator "Дверь медицинского блока с тихим щелчком блокируется снаружи. Начинается психологическое противостояние."
@@ -329,6 +371,7 @@ label minigame2_start:
 
 label minigame2_success:
 
+    show elena hysteria at right with dissolve
     e "Ладно! Ладно! Это я разбила её! Но не потому, что я Кукловод! Мне заплатили за то, чтобы я пронесла её на встречу с вами. Я должна была просто усыпить вас для перевозки — я не знала, что нас запрут здесь умирать!"
 
     a "Кто заплатил?"
@@ -352,10 +395,13 @@ label minigame2_fail:
     $ trust_elena = 0
     $ group_paranoia = min(100, group_paranoia + 30)
 
+    show elena hysteria at center with dissolve
     e "Он напал на меня! Алекс хотел меня задушить!!"
 
+    show viktor furious at right with dissolve
     v "Что?! Аналитик, объяснись."
 
+    show jan paranoia at left with dissolve
     y "Я так и знал! Он псих!"
 
     narrator "Доступ к медикаментам заблокирован аварийной системой."
@@ -371,6 +417,7 @@ label chapter3_viktor_branch:
 
     narrator "Жилой блок. Железные шкафы вдоль стен. Виктор вскрывает один из них монтировкой."
 
+    show viktor gloomy at right with dissolve
     v "Правильный выбор. Сейчас важно понять, что тут есть из полезного."
 
     a "Ты слишком хорошо знаешь, что искать."
@@ -407,8 +454,10 @@ label chapter4_start:
     with dissolve
     narrator "Основное освещение отключается — синяя неоновая подсветка по плинтусам. Таймер: 23:14:02."
 
+    show viktor furious at right with dissolve
     v "Хватит играть по правилам этого ублюдка из телевизора. Часики тикают, а вы только и делаете, что перешёптываетесь по углам. Ян что-то замышляет у своих терминалов, Елена подсыпает дрянь в воду. С этого момента я ввожу здесь военное положение."
 
+    show jan paranoia at left with dissolve
     y "Ты спятил?! Ты хочешь нас просто запереть и дождаться, пока мы задохнёмся?!"
 
     v "Я хочу выжить. А для этого припасы и контроль над воздухом должны быть в одних руках. В моих. Алекс, ты парень с мозгами. Либо ты сейчас помогаешь мне усмирить этих двоих и мы вместе распределяем ресурсы — либо ты остаёшься с ними за бортом. Выбирай быстро."
@@ -451,10 +500,13 @@ label chapter4_sabotage:
 
     sys "КРИТИЧЕСКИЙ СБОЙ: КЛАПАНЫ ВЕНТИЛЯЦИИ ПЕРЕКРЫТЫ ВРУЧНУЮ ИЗ ИНЖЕНЕРНОГО ОТСЕКА. СКОРОСТЬ ПАДЕНИЯ КИСЛОРОДА УВЕЛИЧЕНА В 5 РАЗ"
 
+    show viktor furious at right with dissolve
     v "Ах ты мелкий ублюдок! Всё-таки решил нас придушить?!"
 
+    show jan paranoia at left with dissolve
     y "Это не я! Я был здесь, с вами! Мой терминал взломали удалённо! Кто-то залез в систему жизнеобеспечения из другого сектора!"
 
+    show elena fright at center with dissolve
     e "Воздух... становится слишком тяжело дышать... Сделайте что-нибудь..."
 
     narrator "--- МИНИ-ИГРА №3: «РАСПРЕДЕЛЕНИЕ ВОЗДУХА» (Менеджмент выживания) ---"
@@ -478,8 +530,10 @@ label minigame3_ideal:
 
     $ group_paranoia = max(0, group_paranoia - 15)
 
+    show viktor gloomy at right with dissolve
     v "Ян... Выходит, тебя правда взломали удалённо."
 
+    show jan paranoia at left with dissolve
     y "Я же говорил."
 
     narrator "Группа получает временную передышку."
@@ -489,12 +543,15 @@ label minigame3_ideal:
 
 label minigame3_pragmatic:
 
+    show jan fainting at left with dissolve
     narrator "Ян падает в обморок от гипоксии. Он выживет, но получит тяжёлое когнитивное расстройство."
 
     $ trust_yan = 0
 
+    show viktor gloomy at right with dissolve
     v "Ты сделал правильный выбор, аналитик. Математика есть математика."
 
+    show elena fright at center with dissolve
     e "Алекс... Ты понимаешь, что только что сделал?"
 
     a "(мысленно) Понимаю."
@@ -511,6 +568,7 @@ label minigame3_total_fail:
 
     sys "АВАРИЙНАЯ БЛОКИРОВКА КЛАПАНОВ. РЕЖИМ ЖИЗНЕОБЕСПЕЧЕНИЯ: КРИТИЧЕСКИЙ."
 
+    show viktor furious at right with dissolve
     v "Ты провалил всё. Я сам разберусь с этим."
 
     narrator "Все персонажи получают дебафф «Тяжёлое удушье»."
@@ -571,6 +629,7 @@ label chapter5_search_fail:
 
     narrator "Шкала риска достигла 100%%. В комнату резко заходит Виктор."
 
+    show viktor furious at right with dissolve
     v "Аналитик. Что ты делаешь в моей комнате."
 
     narrator "Это не вопрос."
@@ -608,12 +667,15 @@ label chapter6_start:
     narrator "Центральный шлюз. Главная гермодверь подсвечена красным. Таймер: 00:05:00..."
 
     if viktor_alive:
+        show viktor fatigue at right with dissolve
         v "Ну что, аналитик. Пришли к концу. Воздуха почти нет. Если мы сейчас не решим, кто из нас тварь — мы все сгнием в этой бетонной коробке. Что ты раскопал? Говори сейчас, или я сам решу, кто здесь лишний."
 
     if elena_alive:
+        show elena fright at center with dissolve
         e "Алекс... Пожалуйста... Ты ведь знаешь, что это не я... Мы же доверяли друг другу в медблоке..."
 
     if yan_alive:
+        show jan paranoia at left with dissolve
         y "Код... коды заблокированы... Система требует подтверждения от администратора... Администратор среди нас! Алекс, скажи им!"
 
     narrator "Экран над дверью вспыхивает: «ВРЕМЯ ЭКСПЕРИМЕНТА ИСТЕКЛО. ВЫБЕРИТЕ КУКЛОВОДА ИЛИ ВЫПОЛНИТЕ УСЛОВИЕ ПОПУЛЯЦИИ»."
@@ -668,10 +730,12 @@ label ending1:
     scene bg_outside
     with dissolve
 
+    show alex determined at left with dissolve
     a "Никто из нас не Кукловод. Настоящий Кукловод — это Ян. Точнее, его кураторы. Ян, твой планшет не заблокирован. Тот брелок, что я нашёл у Виктора — это глушилка, которую Виктор принёс, чтобы спасти своего сына. Ты использовал её частоту, чтобы сымитировать сбой вентиляции."
 
     narrator "Яна бьёт дрожь. Он понимает, что раскрыт."
 
+    show jan crazy at right with dissolve
     y "Они... они обещали отпустить мою сестру, если я доведу вас до безумия... Извините..."
 
     a "Приложи руку к сканеру и введи мастер-код."
@@ -698,6 +762,7 @@ label ending2:
 
     narrator "Таймер доходит до нуля. Раздаётся громкий щелчок. Дверь медленно отходит в сторону."
 
+    show viktor fatigue at right with dissolve
     v "Мы сделали то, что должны были, Алекс. Не смотри назад. Нас ждёт жизнь."
 
     narrator "Они выходят на ослепительный солнечный свет. Но внутри у Алекса — лишь звенящая пустота. До конца своих дней он будет просыпаться от кошмаров, слыша хрип тех, кого они оставили в темноте."
@@ -740,8 +805,10 @@ label ending4:
 
     narrator "Воздуха осталось на пару минут. Алекс понимает: система не откроет дверь, пока людей четверо."
 
+    show alex determined at center with dissolve
     a "Виктор, уведи Елену и Яна к шлюзу. Я закрою себя в техническом отсеке и перекрою туда подачу. Система зафиксирует снижение популяции и выпустит вас."
 
+    show elena hysteria at right with dissolve
     e "Нет, Алекс! Мы выберемся вместе!"
 
     a "Идите."
@@ -770,6 +837,7 @@ label ending5:
 
     narrator "Елена подходит ближе, мягко улыбается... и резко бьёт Алекса шокером, спрятанным в рукаве. Алекс падает, парализованный."
 
+    show elena cold at right with dissolve
     e "Ты был отличным инструментом, Алекс. Умным, но слишком доверчивым. Спасибо, что помог убрать Виктора. Организаторы будут довольны моим отчётом."
 
     narrator "Она прикладывает руку, вводит код и выходит, оставляя Алекса умирать на полу рядом с тикающим таймером."
@@ -791,12 +859,15 @@ label ending6:
     narrator "Слова кончились. Вспыхивает слепая ярость."
 
     if viktor_alive:
+        show viktor furious at right with dissolve
         v "Хватит!!!"
 
     if yan_alive:
+        show jan paranoia at left with dissolve
         y "Отойди от меня!!"
 
     if elena_alive:
+        show elena hysteria at center with dissolve
         e "Прекратите, прекратите, ПРЕКРАТИТЕ!"
 
     narrator "В этот момент багровый свет гаснет навсегда. Вентиляция затихает."
