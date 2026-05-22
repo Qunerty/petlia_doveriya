@@ -443,7 +443,7 @@ label chapter4_start:
 
 label chapter4_sabotage:
 
-    scene bg_bunker_hub_red
+    scene bg_bunker_room_red
     with flash
 
     if renpy.loadable("alarm_wail.ogg"):
